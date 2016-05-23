@@ -1,13 +1,10 @@
 package com.finovera.ebillapi;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
-    }
+import com.finovera.ebillApi.ui.AddBillerFrame;
+
+public class App {
+	public static void main(final String[] args) {
+		final AddBillerFrame addBiller = new AddBillerFrame();
+		addBiller.addBillerPage();
+	}
 }
