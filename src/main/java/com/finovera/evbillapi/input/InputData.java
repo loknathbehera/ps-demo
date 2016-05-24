@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-public class InputData {
+public class InputData extends DataManager {
 	private final Map<String, Object> inputDatas;
 
 	public InputData() {
