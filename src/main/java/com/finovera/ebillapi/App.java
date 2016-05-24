@@ -1,17 +1,23 @@
 package com.finovera.ebillapi;
 
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import java.util.Map;
 
 import com.finovera.ebillapi.auth.AuthInfo;
+import com.finovera.evbillapi.input.InputData;
 
 public class App {
 	public static void main(final String[] args) {
-		final AuthInfo auth = new AuthInfo("http://localhost:8085/spring");
-		final MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-		map.add("customerCode", "");
-		map.add("password", "");
 
-		auth.login(map);
+		final Map<String, Object> inputData = initializedInputData();
+
+		final AuthInfo auth = new AuthInfo();
+
+		auth.login(inputData);
+	}
+
+	private static Map<String, Object> initializedInputData() {
+		final InputData inputData = new InputData();
+
+		return inputData.getInputData();
 	}
 }

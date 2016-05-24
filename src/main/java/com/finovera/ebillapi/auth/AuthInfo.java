@@ -1,13 +1,12 @@
 package com.finovera.ebillapi.auth;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import com.finovera.ebillApi.ui.AddBillerFrame;
 
 public class AuthInfo {
 
@@ -17,17 +16,16 @@ public class AuthInfo {
 
 	String apiVer = "1.0";
 
-	String url;
-
-	public AuthInfo(final String url) {
+	public AuthInfo() {
 		template = new RestTemplate();
-		this.url = url;
 	}
 
-	public void login(final MultiValueMap<String, String> credMap) {
+	public void login(final Map<String, Object> inputData) {
 		try {
+			final MultiValueMap<String, String> map = (MultiValueMap<String, String>) inputData.get("credMap");
+			final String url = (String) inputData.get("URL");
 
-			final CustomerLoginData loginData = template.postForObject(url + "/login/ps", credMap, CustomerLoginData.class);
+			final CustomerLoginData loginData = template.postForObject(url + "/login/ps", map, CustomerLoginData.class);
 			if (loginData.status.equals("SUCCESS")) {
 
 				headers = new HttpHeaders();
@@ -35,8 +33,6 @@ public class AuthInfo {
 				headers.setContentType(MediaType.APPLICATION_JSON);
 				headers.add("X-FINOVERA-TOKEN", loginData.token);
 
-				final AddBillerFrame addBiller = new AddBillerFrame();
-				addBiller.addBillerPage();
 			} else {
 
 			}
