@@ -10,20 +10,26 @@ import org.springframework.web.client.RestTemplate;
 
 public class AuthInfo {
 
-	RestTemplate template;
+	private final RestTemplate template;
 
-	HttpHeaders headers;
+	private HttpHeaders headers;
 
-	String apiVer = "1.0";
+	private final String apiVer = "1.0";
 
-	public AuthInfo() {
+	private final Map<String, Object> inputDatas;
+
+	private final String url;
+
+	public AuthInfo(final Map<String, Object> inputDatas) {
 		template = new RestTemplate();
+		url = (String) inputDatas.get("url");
+		this.inputDatas = inputDatas;
 	}
 
-	public void login(final Map<String, Object> inputData) {
+	public void login() {
 		try {
-			final MultiValueMap<String, String> map = (MultiValueMap<String, String>) inputData.get("credMap");
-			final String url = (String) inputData.get("URL");
+			final MultiValueMap<String, String> map = (MultiValueMap<String, String>) inputDatas.get("credMap");
+			final String url = (String) inputDatas.get("URL");
 
 			final CustomerLoginData loginData = template.postForObject(url + "/login/ps", map, CustomerLoginData.class);
 			if (loginData.status.equals("SUCCESS")) {

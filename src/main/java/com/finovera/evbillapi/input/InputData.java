@@ -7,7 +7,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 public class InputData extends DataManager {
-	private final Map<String, Object> inputDatas;
 
 	public InputData() {
 		this.inputDatas = new HashMap<String, Object>();
@@ -27,8 +26,8 @@ public class InputData extends DataManager {
 		inputDatas.put("URL", "http://localhost:8085/spring");
 
 		final MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-		map.add("customerCode", "fin");
-		map.add("password", "Tera kya go hoga Kaliya?");
+		map.add("customerCode", "*****");
+		map.add("password", "*************************");
 
 		inputDatas.put("credMap", map);
 

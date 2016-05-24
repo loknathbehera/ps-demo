@@ -10,9 +10,9 @@ public class App {
 
 		final Map<String, Object> inputData = initializedInputData();
 
-		final AuthInfo auth = new AuthInfo();
+		final AuthInfo loggedIn = new AuthInfo(inputData);
 
-		auth.login(inputData);
+		loggedIn.login();
 	}
 
 	private static Map<String, Object> initializedInputData() {
