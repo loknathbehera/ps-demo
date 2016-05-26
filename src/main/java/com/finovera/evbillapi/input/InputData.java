@@ -26,8 +26,8 @@ public class InputData extends DataManager {
 		inputDatas.put("URL", "http://localhost:8085/spring");
 
 		final MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-		map.add("customerCode", "*****");
-		map.add("password", "*************************");
+		map.add("customerCode", "fin");
+		map.add("password", "Tera kya go hoga Kaliya?");
 
 		inputDatas.put("credMap", map);
 

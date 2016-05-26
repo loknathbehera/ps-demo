@@ -12,7 +12,6 @@ public class App {
 
 		final AuthInfo loggedIn = new AuthInfo(inputData);
 
-		loggedIn.login();
 	}
 
 	private static Map<String, Object> initializedInputData() {

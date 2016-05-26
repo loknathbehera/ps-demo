@@ -8,22 +8,16 @@ import org.springframework.http.MediaType;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-public class AuthInfo {
+import com.finovera.evbillapi.input.DataManager;
 
-	private final RestTemplate template;
-
-	private HttpHeaders headers;
-
-	private final String apiVer = "1.0";
-
-	private final Map<String, Object> inputDatas;
-
-	private final String url;
+public class AuthInfo extends DataManager {
 
 	public AuthInfo(final Map<String, Object> inputDatas) {
 		template = new RestTemplate();
 		url = (String) inputDatas.get("url");
 		this.inputDatas = inputDatas;
+
+		login();
 	}
 
 	public void login() {
@@ -40,11 +34,11 @@ public class AuthInfo {
 				headers.add("X-FINOVERA-TOKEN", loginData.token);
 
 			} else {
-
+				throw new Exception("Login to finovera Api failed");
 			}
 
 		} catch (final Exception e) {
-
+			System.out.println(e);
 		}
 	}
 
