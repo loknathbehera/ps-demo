@@ -3,7 +3,7 @@ package com.finovera.ebillapi;
 import java.util.Map;
 
 import com.finovera.ebillapi.auth.AuthInfo;
-import com.finovera.evbillapi.input.InputData;
+import com.finovera.ebillapi.input.InputData;
 
 public class App {
 	public static void main(final String[] args) {

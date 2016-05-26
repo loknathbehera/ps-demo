@@ -9,7 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.finovera.evbillapi.input.DataManager;
+import com.finovera.ebillapi.input.DataManager;
 
 public class AuthInfo extends DataManager {
 
