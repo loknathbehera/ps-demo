@@ -1,6 +1,7 @@
 package com.finovera.ebillapi.auth;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
@@ -24,6 +25,8 @@ public class AuthInfo extends DataManager {
 		try {
 			final MultiValueMap<String, String> map = (MultiValueMap<String, String>) inputDatas.get("credMap");
 			final String url = (String) inputDatas.get("URL");
+
+			cacheDatas = new HashMap<String, Object>();
 
 			final CustomerLoginData loginData = template.postForObject(url + "/login/ps", map, CustomerLoginData.class);
 			if (loginData.status.equals("SUCCESS")) {
