@@ -23,13 +23,15 @@ public class InputData extends DataManager {
 	}
 
 	private void initData() {
-		inputDatas.put("URL", "http://localhost:8085/spring");
+		inputDatas.put("URL", "https://sandbox.finovera.com/cabinet");
 
 		final MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("customerCode", "fin");
 		map.add("password", "Tera kya go hoga Kaliya?");
 
 		inputDatas.put("credMap", map);
+
+		inputDatas.put("userId", "ebillApi_testUser2131312321");
 
 	}
 

@@ -15,7 +15,7 @@ public class AuthInfo extends DataManager {
 
 	public AuthInfo(final Map<String, Object> inputDatas) {
 		template = new RestTemplate();
-		url = (String) inputDatas.get("url");
+		url = (String) inputDatas.get("URL");
 		this.inputDatas = inputDatas;
 
 		login();
@@ -24,7 +24,6 @@ public class AuthInfo extends DataManager {
 	public void login() {
 		try {
 			final MultiValueMap<String, String> map = (MultiValueMap<String, String>) inputDatas.get("credMap");
-			final String url = (String) inputDatas.get("URL");
 
 			cacheDatas = new HashMap<String, Object>();
 

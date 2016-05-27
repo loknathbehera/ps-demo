@@ -3,9 +3,23 @@ package com.finovera.ebillapi.services;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 
-import com.finovera.ebillapi.input.DataManager;
+import com.finovera.ebillapi.auth.AuthInfo;
 
-public class BaseService extends DataManager {
+public class BaseService {
+
+	AuthInfo authIfo;
+
+	protected RestTemplate template;
+	protected HttpHeaders headers;
+	protected String url;
+
+	public BaseService(AuthInfo authInfo) {
+		this.authIfo = authInfo;
+
+		template = authInfo.template;
+		headers = authInfo.headers;
+		url = authInfo.url;
+	}
 
 	public static final String USER = "/ps/user/{userId}"; // POST = add user;
 															// GET =
@@ -30,9 +44,4 @@ public class BaseService extends DataManager {
 	public static final String GET_EBILL_ACCOUNT_INFO = "/ps/user/{userId}/billerlogin/{billerloginId}/account";// GET
 	public static final String GET_DOCUMENT = "/ps/user/{userId}/document/{documentId}";// GET
 																						// *
-
-	protected RestTemplate template;
-	protected HttpHeaders headers;
-	protected String url;
-
 }

@@ -2,12 +2,20 @@ package com.finovera.ebillapi.services;
 
 import org.springframework.http.HttpEntity;
 
+import com.finovera.ebillapi.auth.AuthInfo;
 import com.finovera.platformServices.request.ebill.RegisterUserRequest;
 import com.finovera.platformServices.response.ebill.RegisterUserResponse;
 
 public class RegisterUserService extends BaseService {
 
-	public RegisterUserResponse registerUser(final String userId) {
+	public RegisterUserService(AuthInfo authInfo) {
+		super(authInfo);
+	}
+
+	public RegisterUserResponse registerUser(String userId) {
+
+		userId = (String) authIfo.inputDatas.get("userId");
+
 		final RegisterUserRequest req = new RegisterUserRequest();
 		RegisterUserResponse response = null;
 		final HttpEntity<RegisterUserRequest> httpRequest = new HttpEntity<RegisterUserRequest>(req, headers);
@@ -21,4 +29,5 @@ public class RegisterUserService extends BaseService {
 
 		return response;
 	}
+
 }
