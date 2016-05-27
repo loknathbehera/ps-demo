@@ -13,7 +13,7 @@ public class BaseService {
 	protected HttpHeaders headers;
 	protected String url;
 
-	public BaseService(AuthInfo authInfo) {
+	public BaseService(final AuthInfo authInfo) {
 		this.authIfo = authInfo;
 
 		template = authInfo.template;
@@ -38,6 +38,8 @@ public class BaseService {
 																								// GET
 																								// =
 																								// getBillerLogin;
+	public static final String BILLER = "/ps/biller/";// GET
+
 	// DELETE = deleteBillerLogin
 	public static final String GET_BILLER_LOGINS = "/ps/user/{userId}/billerlogin/";// GET
 	public static final String GET_EBILLS = "/ps/user/{userId}/ebills";// GET *
