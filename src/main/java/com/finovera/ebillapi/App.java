@@ -3,8 +3,8 @@ package com.finovera.ebillapi;
 import java.util.Map;
 
 import com.finovera.ebillapi.auth.AuthInfo;
-import com.finovera.ebillapi.demo.DemoClass;
-import com.finovera.ebillapi.input.InputData;
+import com.finovera.ebillapi.input.InputDataClass;
+import com.finovera.ebillapi.userservicesdemo.DemoClass;
 
 public class App {
 	public static void main(final String[] args) {
@@ -13,13 +13,13 @@ public class App {
 
 		final AuthInfo loggedIn = new AuthInfo(inputData);
 
-		DemoClass dc = new DemoClass(loggedIn);
-		dc.registerUser("ebill_Api_test_user");
+		final DemoClass dc = new DemoClass(loggedIn);
+		dc.registerUser();
 
 	}
 
 	private static Map<String, Object> initializedInputData() {
-		final InputData inputData = new InputData();
+		final InputDataClass inputData = new InputDataClass();
 
 		return inputData.getInputData();
 	}

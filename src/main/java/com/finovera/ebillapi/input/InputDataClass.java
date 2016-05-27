@@ -6,32 +6,32 @@ import java.util.Map;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-public class InputData extends DataManager {
+public class InputDataClass extends DataManager {
 
-	public InputData() {
-		this.inputDatas = new HashMap<String, Object>();
+	public InputDataClass() {
+		this.inputData = new HashMap<String, Object>();
 
 		initData();
 	}
 
 	public Map<String, Object> getInputData() {
-		return inputDatas;
+		return inputData;
 	}
 
 	public void setInputDatas(final String key, final Object value) {
-		inputDatas.put(key, value);
+		inputData.put(key, value);
 	}
 
 	private void initData() {
-		inputDatas.put("URL", "https://sandbox.finovera.com/cabinet");
+		inputData.put("URL", "http://localhost:8085/spring");
 
 		final MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("customerCode", "fin");
 		map.add("password", "Tera kya go hoga Kaliya?");
 
-		inputDatas.put("credMap", map);
+		inputData.put("credMap", map);
 
-		inputDatas.put("userId", "ebillApi_testUser2131312321");
+		inputData.put("userId", "ebillApi_testUser21313122321");
 
 	}
 

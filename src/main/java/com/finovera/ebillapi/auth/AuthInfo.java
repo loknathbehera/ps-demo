@@ -16,16 +16,16 @@ public class AuthInfo extends DataManager {
 	public AuthInfo(final Map<String, Object> inputDatas) {
 		template = new RestTemplate();
 		url = (String) inputDatas.get("URL");
-		this.inputDatas = inputDatas;
+		this.inputData = inputDatas;
 
 		login();
 	}
 
 	public void login() {
 		try {
-			final MultiValueMap<String, String> map = (MultiValueMap<String, String>) inputDatas.get("credMap");
+			final MultiValueMap<String, String> map = (MultiValueMap<String, String>) inputData.get("credMap");
 
-			cacheDatas = new HashMap<String, Object>();
+			cacheData = new HashMap<String, Object>();
 
 			final CustomerLoginData loginData = template.postForObject(url + "/login/ps", map, CustomerLoginData.class);
 			if (loginData.status.equals("SUCCESS")) {
@@ -34,6 +34,7 @@ public class AuthInfo extends DataManager {
 				headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 				headers.setContentType(MediaType.APPLICATION_JSON);
 				headers.add("X-FINOVERA-TOKEN", loginData.token);
+				headers.add("X-FINOVERA-VERSION", apiVer);
 
 			} else {
 				throw new Exception("Login to finovera Api failed");

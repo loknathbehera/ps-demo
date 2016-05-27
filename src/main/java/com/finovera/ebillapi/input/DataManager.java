@@ -7,8 +7,8 @@ import org.springframework.web.client.RestTemplate;
 
 public class DataManager {
 
-	public Map<String, Object> inputDatas = null;
-	public Map<String, Object> cacheDatas = null;
+	public Map<String, Object> inputData = null;
+	public Map<String, Object> cacheData = null;
 
 	public RestTemplate template;
 
