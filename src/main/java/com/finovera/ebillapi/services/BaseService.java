@@ -7,14 +7,14 @@ import com.finovera.ebillapi.auth.AuthInfo;
 
 public class BaseService {
 
-	AuthInfo authIfo;
+	AuthInfo authInfo;
 
 	protected RestTemplate template;
 	protected HttpHeaders headers;
 	protected String url;
 
 	public BaseService(final AuthInfo authInfo) {
-		this.authIfo = authInfo;
+		this.authInfo = authInfo;
 
 		template = authInfo.template;
 		headers = authInfo.headers;

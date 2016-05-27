@@ -5,6 +5,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import com.finovera.ebillapi.auth.AuthInfo;
+import com.finovera.ebillapi.ui.AddBillerFrame;
 import com.finovera.platformServices.data.Biller;
 import com.finovera.platformServices.response.ebill.BillerListResponse;
 import com.finovera.platformServices.response.ebill.FinoveraResponseCode;
@@ -16,7 +17,7 @@ public class AddBillerServices extends BaseService {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Biller getBillerInfo(final String immuitableId) {
+	public Biller getBillerInfo(final String providerImmutableId) {
 
 		final HttpEntity<String> httpRequest = new HttpEntity<String>("", headers);
 		final ResponseEntity<BillerListResponse> responseEntity = template.exchange(url + BILLER, HttpMethod.GET, httpRequest, BillerListResponse.class);
@@ -26,13 +27,21 @@ public class AddBillerServices extends BaseService {
 			return null;
 		} else {
 			for (final Biller biller : response.getBillers()) {
-				if (biller.getImmutableId().equals(immuitableId)) {
-					authIfo.inputData.put("biller", biller);
+				if (biller.getImmutableId().equals(providerImmutableId)) {
+					authInfo.inputData.put("biller", biller);
 					return biller;
 				}
 			}
 		}
 		return null;
+	}
+
+	public void addBillerLogin(final String providerImmutableId) throws Exception {
+		final Biller biller = getBillerInfo(providerImmutableId);
+
+		final AddBillerFrame addBillerFrame = new AddBillerFrame(authInfo);
+		addBillerFrame.setVisible(true);
+
 	}
 
 }

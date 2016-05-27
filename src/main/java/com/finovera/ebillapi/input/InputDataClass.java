@@ -31,7 +31,7 @@ public class InputDataClass extends DataManager {
 
 		inputData.put("credMap", map);
 
-		inputData.put("userId", "ebillApi_testUser21313122321");
+		inputData.put("userId", "ebillApi_testUser2131312243321");
 
 	}
 

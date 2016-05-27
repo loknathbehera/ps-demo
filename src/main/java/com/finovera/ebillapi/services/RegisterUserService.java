@@ -23,7 +23,7 @@ public class RegisterUserService extends BaseService {
 
 		response = template.postForObject(url + USER + "/", httpRequest, RegisterUserResponse.class, userId);
 
-		authIfo.cacheData.put("userId", response.getUserId());
+		authInfo.cacheData.put("userId", response.getUserId());
 
 		return response;
 	}
