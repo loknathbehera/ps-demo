@@ -23,7 +23,7 @@ public class InputDataClass extends DataManager {
 	}
 
 	private void initData() {
-		inputData.put("URL", "http://localhost:8085/spring");
+		inputData.put("URL", "http://sandbox.finovera.com/cabinet");
 
 		final MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("customerCode", "fin");
@@ -31,7 +31,7 @@ public class InputDataClass extends DataManager {
 
 		inputData.put("credMap", map);
 
-		inputData.put("userId", "ebillApi_testUser2131312243321");
+		inputData.put("userId", "ebillApi_testUser432784326");
 
 	}
 

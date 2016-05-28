@@ -15,10 +15,11 @@ public class App {
 		final AuthInfo loggedIn = new AuthInfo(inputData);
 
 		final DemoClass dc = new DemoClass(loggedIn);
-		dc.registerUser();
+		// dc.registerUser();
 
 		final AddBillerDemo a = new AddBillerDemo(loggedIn);
-		a.addBiller();
+		// a.addBiller();
+		a.addBillerThrowUI();
 
 	}
 
