@@ -1,6 +1,5 @@
 package com.finovera.ebillapi.ui;
 
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
@@ -28,6 +28,7 @@ public class AddBillerUI extends JFrame {
 	private JPanel contentPane;
 	private JTextField immuitableIdtextField;
 	JPanel credsPanel;
+	JTextPane billertextPane;
 
 	AuthInfo authInfo;
 
@@ -56,6 +57,10 @@ public class AddBillerUI extends JFrame {
 				createCredPanel(biller);
 
 				credsPanel.setVisible(true);
+
+				billertextPane.setText(getBillerText(biller));
+				billertextPane.setVisible(true);
+
 			}
 		});
 		immuitableIdtextField.setToolTipText("Please Enter the Immuitable Id of the biller which you need to add");
@@ -64,27 +69,44 @@ public class AddBillerUI extends JFrame {
 
 		credsPanel = new JPanel();
 		credsPanel.setBackground(UIManager.getColor("Button.shadow"));
+
+		billertextPane = new JTextPane();
+		billertextPane.setEditable(false);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane.createSequentialGroup().addGap(10)
-										.addComponent(immuitableIdLbl, GroupLayout.PREFERRED_SIZE, 76,
-												GroupLayout.PREFERRED_SIZE)
-										.addGap(18).addComponent(immuitableIdtextField, GroupLayout.PREFERRED_SIZE, 0,
-												Short.MAX_VALUE))
-						.addGroup(gl_contentPane.createSequentialGroup().addGap(30).addComponent(credsPanel,
-								GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)))
-						.addGap(29)));
+		gl_contentPane
+				.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_contentPane.createSequentialGroup().addGap(30)
+												.addComponent(credsPanel, GroupLayout.DEFAULT_SIZE, 180,
+														Short.MAX_VALUE)
+												.addGap(51).addComponent(billertextPane, GroupLayout.DEFAULT_SIZE, 134,
+														Short.MAX_VALUE))
+						.addGroup(gl_contentPane.createSequentialGroup().addGap(10)
+								.addComponent(immuitableIdLbl, GroupLayout.PREFERRED_SIZE, 76,
+										GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(immuitableIdtextField, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+				.addGap(29)));
 		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup().addGap(12)
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING).addComponent(immuitableIdLbl)
 								.addComponent(immuitableIdtextField, GroupLayout.PREFERRED_SIZE,
 										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGap(32).addComponent(credsPanel, GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-						.addGap(22)));
-		credsPanel.setLayout(new GridBagLayout());
+						.addGap(32).addGroup(
+								gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_contentPane.createSequentialGroup()
+												.addComponent(credsPanel, GroupLayout.PREFERRED_SIZE, 0,
+														Short.MAX_VALUE)
+												.addGap(118))
+										.addGroup(
+												gl_contentPane
+														.createSequentialGroup().addComponent(billertextPane,
+																GroupLayout.PREFERRED_SIZE, 8, Short.MAX_VALUE)
+														.addGap(95)))));
+
 		credsPanel.setVisible(false);
+		billertextPane.setVisible(false);
 
 		contentPane.setLayout(gl_contentPane);
 
@@ -97,7 +119,6 @@ public class AddBillerUI extends JFrame {
 		for (CredentialFieldInfo credentialFieldInfo : biller.getCredentialFieldInfoList()) {
 
 			JPanel credPanel = new JPanel();
-			credPanel.setLayout(new GridBagLayout());
 			credPanel.setBounds(38, 11, 306, 36);
 
 			System.out.println(credentialFieldInfo.getName());
@@ -121,5 +142,28 @@ public class AddBillerUI extends JFrame {
 
 			i++;
 		}
+	}
+
+	public String getBillerText(Biller biller) {
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("\nImmuitable Id : " + biller.getImmutableId() + "\n");
+		sb.append("\nDisplay Name :  " + biller.getDisplayName() + "\n");
+		sb.append("\nCategory : " + biller.getCategory() + "\n");
+		sb.append("\nWebsite URL : " + biller.getWebsiteURL() + "\n");
+
+		sb.append("\nIs Internal : " + biller.isInternal() + "\n");
+
+		sb.append("\n\n-----------------Credential Filed Info-----------------------------------------------\n\n");
+		for (CredentialFieldInfo credentialFieldInfo : biller.getCredentialFieldInfoList()) {
+			sb.append("\n cred Def Name  -: " + credentialFieldInfo.getName() + "      Order of Display -: "
+					+ credentialFieldInfo.getOrderOfDisplay() + "           isMasked   -: "
+					+ credentialFieldInfo.isMasked() + "\n");
+		}
+
+		sb.append("\n--------------------------------------------------------------------------------------\n\n");
+
+		return sb.toString();
 	}
 }
