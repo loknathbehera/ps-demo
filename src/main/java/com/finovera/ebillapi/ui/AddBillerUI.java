@@ -1,5 +1,6 @@
 package com.finovera.ebillapi.ui;
 
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,6 +21,10 @@ import com.finovera.platformServices.data.CredentialFieldInfo;
 
 public class AddBillerUI extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3012305622049707248L;
 	private JPanel contentPane;
 	private JTextField immuitableIdtextField;
 	JPanel credsPanel;
@@ -27,7 +32,6 @@ public class AddBillerUI extends JFrame {
 	AuthInfo authInfo;
 
 	AddBillerServices addBillerService;
-	private JTextField credTextField;
 
 	/**
 	 * Create the frame.
@@ -79,7 +83,7 @@ public class AddBillerUI extends JFrame {
 										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGap(32).addComponent(credsPanel, GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
 						.addGap(22)));
-		credsPanel.setLayout(null);
+		credsPanel.setLayout(new GridBagLayout());
 		credsPanel.setVisible(false);
 
 		contentPane.setLayout(gl_contentPane);
@@ -88,27 +92,34 @@ public class AddBillerUI extends JFrame {
 
 	protected void createCredPanel(Biller biller) {
 
+		int i = 0;
+
 		for (CredentialFieldInfo credentialFieldInfo : biller.getCredentialFieldInfoList()) {
 
 			JPanel credPanel = new JPanel();
+			credPanel.setLayout(new GridBagLayout());
 			credPanel.setBounds(38, 11, 306, 36);
-			credsPanel.add(credPanel);
-			credPanel.setLayout(null);
 
-			JLabel credlbl = new JLabel(credentialFieldInfo.getName());
+			System.out.println(credentialFieldInfo.getName());
+
+			JLabel credlbl = new JLabel(credentialFieldInfo.getName() + "lblFiled");
 			credlbl.setText(credentialFieldInfo.getName());
 			credlbl.setBounds(10, 11, 61, 14);
 			credlbl.setHorizontalAlignment(SwingConstants.LEFT);
 			credPanel.add(credlbl);
 
-			credTextField = new JTextField();
+			JTextField credTextField = new JTextField();
 			credTextField.setName(credentialFieldInfo.getName() + "_txtFiled");
 			credTextField.setBounds(81, 8, 215, 20);
-			credPanel.add(credTextField);
 			credTextField.setColumns(10);
+			credPanel.add(credTextField);
+
+			credPanel.setAlignmentX(i * 2);
+			credPanel.setAlignmentY(i * 2);
 
 			credsPanel.add(credPanel);
 
+			i++;
 		}
 	}
 }
