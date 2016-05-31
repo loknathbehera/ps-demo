@@ -1,5 +1,6 @@
 package com.finovera.ebillapi.ui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,12 +15,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import com.finovera.ebillapi.auth.AuthInfo;
 import com.finovera.ebillapi.services.AddBillerServices;
+import com.finovera.ebillapi.services.RegisterUserService;
 import com.finovera.platformServices.data.Biller;
 import com.finovera.platformServices.data.CredentialFieldData;
 import com.finovera.platformServices.data.CredentialFieldInfo;
@@ -40,6 +43,8 @@ public class AddBillerUI extends JFrame {
 	AuthInfo authInfo;
 
 	AddBillerServices addBillerService;
+	private JTextField userIdtextField;
+	private JLabel msgLbl;
 
 	/**
 	 * Create the frame.
@@ -57,10 +62,15 @@ public class AddBillerUI extends JFrame {
 		final JLabel immuitableIdLbl = new JLabel("ImmuitableId :");
 
 		immuitableIdtextField = new JTextField();
+		immuitableIdLbl.setVisible(false);
+		immuitableIdtextField.setVisible(false);
+
 		immuitableIdtextField.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
+
 				addBillerService = new AddBillerServices(authinfo);
 				final Biller biller = addBillerService.getBillerInfo(e.getActionCommand());
+
 				createCredPanel(biller);
 
 				credsPanel.setVisible(true);
@@ -86,64 +96,87 @@ public class AddBillerUI extends JFrame {
 		addBillerbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
 
-				final String userId = "ebillApiTestUser_54365e38800b4732b43152642ed7a757";
+				final String userId = userIdtextField.getText();
 				addBillerService.postRequestToAddBillerLogin(createRequestToAddBillerLogin(), userId);
 
 			}
 
 		});
 		addBillerbtn.setVisible(false);
+
+		final JLabel userIdlbl = new JLabel("User Id  :");
+
+		userIdtextField = new JTextField();
+		userIdtextField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				authinfo.inputData.put("userId", userIdtextField.getText());
+
+				RegisterUserService registerUserService = new RegisterUserService(authinfo);
+				if (registerUserService.getUserInfo(arg0.getActionCommand()).getUser() == null) {
+					registerUserService.registerUser(arg0.getActionCommand());
+
+					userIdtextField.setVisible(false);
+
+					userIdlbl.setText("New User Registered " + arg0.getActionCommand());
+
+				} else {
+					userIdlbl.setText("Already Registed : " + arg0.getActionCommand());
+					userIdtextField.setVisible(false);
+				}
+
+				immuitableIdLbl.setVisible(true);
+				immuitableIdtextField.setVisible(true);
+			}
+		});
+		userIdtextField
+				.setToolTipText("Enter the userId which you needs to register or find the userId already register");
+		userIdtextField.setColumns(10);
+
+		msgLbl = new JLabel("");
+		msgLbl.setForeground(Color.RED);
 		final GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane
 				.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_contentPane.createSequentialGroup().addGap(10)
+												.addComponent(immuitableIdLbl, GroupLayout.PREFERRED_SIZE, 76,
+														GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(immuitableIdtextField, GroupLayout.DEFAULT_SIZE, 216,
+												Short.MAX_VALUE).addGap(18).addComponent(userIdlbl)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(userIdtextField, GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE))
+						.addGroup(gl_contentPane.createSequentialGroup().addGap(30).addGroup(gl_contentPane
+								.createParallelGroup(Alignment.LEADING)
+								.addComponent(addBillerbtn, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_contentPane.createSequentialGroup()
+										.addComponent(credsPanel, GroupLayout.PREFERRED_SIZE, 214,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(79)
+										.addComponent(billertextPane, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)))
+								.addPreferredGap(ComponentPlacement.RELATED))).addGap(0))
+				.addGroup(gl_contentPane.createSequentialGroup().addContainerGap(262, Short.MAX_VALUE)
+						.addComponent(msgLbl).addGap(162)));
+		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup().addContainerGap().addComponent(msgLbl).addGap(18)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE).addComponent(immuitableIdLbl)
+								.addComponent(immuitableIdtextField, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(userIdlbl).addComponent(userIdtextField, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(
-								gl_contentPane
-										.createSequentialGroup()
-										.addGroup(
-												gl_contentPane
-														.createParallelGroup(Alignment.LEADING)
-														.addGroup(
-																gl_contentPane
-																		.createSequentialGroup()
-																		.addGap(10)
-																		.addComponent(immuitableIdLbl, GroupLayout.PREFERRED_SIZE, 76,
-																				GroupLayout.PREFERRED_SIZE).addGap(18)
-																		.addComponent(immuitableIdtextField, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-														.addGroup(
-																gl_contentPane
-																		.createSequentialGroup()
-																		.addGap(30)
-																		.addGroup(
-																				gl_contentPane
-																						.createParallelGroup(Alignment.LEADING)
-																						.addComponent(addBillerbtn, GroupLayout.PREFERRED_SIZE, 142,
-																								GroupLayout.PREFERRED_SIZE)
-																						.addGroup(
-																								gl_contentPane
-																										.createSequentialGroup()
-																										.addComponent(credsPanel, GroupLayout.DEFAULT_SIZE,
-																												187, Short.MAX_VALUE)
-																										.addGap(51)
-																										.addComponent(billertextPane, GroupLayout.DEFAULT_SIZE,
-																												141, Short.MAX_VALUE))))).addGap(29)));
-		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(
-				gl_contentPane
-						.createSequentialGroup()
-						.addGap(12)
-						.addGroup(
-								gl_contentPane.createParallelGroup(Alignment.TRAILING).addComponent(immuitableIdLbl)
-										.addComponent(immuitableIdtextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGap(32)
-						.addGroup(
-								gl_contentPane
-										.createParallelGroup(Alignment.LEADING)
-										.addGroup(
-												gl_contentPane.createSequentialGroup().addComponent(credsPanel, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-														.addGap(27).addComponent(addBillerbtn, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-														.addGap(21))
-										.addGroup(
-												gl_contentPane.createSequentialGroup()
-														.addComponent(billertextPane, GroupLayout.PREFERRED_SIZE, 103, Short.MAX_VALUE).addGap(95)))));
+								gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_contentPane.createSequentialGroup().addGap(68)
+												.addComponent(billertextPane, GroupLayout.DEFAULT_SIZE, 52,
+														Short.MAX_VALUE)
+												.addGap(28))
+										.addGroup(gl_contentPane.createSequentialGroup().addGap(32)
+												.addComponent(credsPanel, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+												.addPreferredGap(ComponentPlacement.RELATED)))
+				.addComponent(addBillerbtn, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+				.addContainerGap()));
 
 		credsPanel.setVisible(false);
 		billertextPane.setVisible(false);
@@ -200,8 +233,9 @@ public class AddBillerUI extends JFrame {
 
 		sb.append("\n\n-----------------Credential Filed Info-----------------------------------------------\n\n");
 		for (final CredentialFieldInfo credentialFieldInfo : biller.getCredentialFieldInfoList()) {
-			sb.append("\n cred Def Name  -: " + credentialFieldInfo.getName() + "      Order of Display -: " + credentialFieldInfo.getOrderOfDisplay()
-					+ "           isMasked   -: " + credentialFieldInfo.isMasked() + "\n");
+			sb.append("\n cred Def Name  -: " + credentialFieldInfo.getName() + "      Order of Display -: "
+					+ credentialFieldInfo.getOrderOfDisplay() + "           isMasked   -: "
+					+ credentialFieldInfo.isMasked() + "\n");
 		}
 
 		sb.append("\n--------------------------------------------------------------------------------------\n\n");

@@ -63,20 +63,23 @@ public class BaseService {
 																						// *
 
 	public void poll(final Long siteId, final String token, final String userId) throws Exception {
-		final long timeToWait = System.currentTimeMillis() + 5 * 60 * 1000; // 5 minutes
+		final long timeToWait = System.currentTimeMillis() + 5 * 60 * 1000; // 5
+																			// minutes
 		do {
 			final HttpEntity<String> requestEntity = new HttpEntity<String>("", headers);
 
-			final ResponseEntity<AddSiteLoginStatusResponse> respEntity = template.exchange(url
-					+ "/ps/user/{userId}/sitelogin/{siteloginId}/{trackingToken}/status", HttpMethod.GET, requestEntity, AddSiteLoginStatusResponse.class,
-					userId, siteId, token);
+			final ResponseEntity<AddSiteLoginStatusResponse> respEntity = template.exchange(
+					url + "/ps/user/{userId}/sitelogin/{siteloginId}/{trackingToken}/status", HttpMethod.GET,
+					requestEntity, AddSiteLoginStatusResponse.class, userId, siteId, token);
 			final AddSiteLoginStatusResponse resp = respEntity.getBody();
+			System.out.println(resp.getStatusCode());
 			if (resp.getConnectionStatus() == SiteLoginConnectionStatus.COMPLETED) {
 				if (resp.getStatusCode() == FinoveraResponseCode.OK) {
 					if (resp.getFailures().size() > 0) {
 						// log.error("Server reported errors");
 						for (final String s : resp.getFailures()) {
-							// log.error("Error {}", ExternalErrorCode.getCodeForValue(Integer.parseInt(s)));
+							// log.error("Error {}",
+							// ExternalErrorCode.getCodeForValue(Integer.parseInt(s)));
 						}
 						return;
 					}
@@ -99,7 +102,8 @@ public class BaseService {
 		throw new Exception("Job did not finish within 5 minutes");
 	}
 
-	private void handleMFA(final MFAList mfaList, final String userId, final Long siteId, final String trackingToken) throws Exception {
+	private void handleMFA(final MFAList mfaList, final String userId, final Long siteId, final String trackingToken)
+			throws Exception {
 
 		final MFAResponseList mfaResponseList = new MFAResponseList();
 		// mfaResponseList.setApiVersion(this.argsData.apiVersion);
@@ -124,18 +128,22 @@ public class BaseService {
 			}
 		}
 
-		// log.info("sending MFA answers with tracking token {} MFA {}", trackingToken, mfaResponseList.getMfaId());
+		// log.info("sending MFA answers with tracking token {} MFA {}",
+		// trackingToken, mfaResponseList.getMfaId());
 		mfaResponseList.setMfaResponses(mfaResponses.toArray(new MFAResponse[mfaResponses.size()]));
-		final HttpEntity<MFAResponseList> mfaResponseListHttpRequest = new HttpEntity<MFAResponseList>(mfaResponseList, headers);
-		template.postForEntity(url + "/ps/user/{userId}/sitelogin/{siteloginId}/mfaresponse", mfaResponseListHttpRequest, FinoveraResponse.class, userId,
-				siteId);
+		final HttpEntity<MFAResponseList> mfaResponseListHttpRequest = new HttpEntity<MFAResponseList>(mfaResponseList,
+				headers);
+		template.postForEntity(url + "/ps/user/{userId}/sitelogin/{siteloginId}/mfaresponse",
+				mfaResponseListHttpRequest, FinoveraResponse.class, userId, siteId);
 	}
 
 	private MFAResponse handleOtp(final MFA mfa) throws Exception {
 		// // log.info("Received OTP challenge");
-		// for (final Entry<String, String> entry : mfa.getDeliveryOptions().entrySet()) {
+		// for (final Entry<String, String> entry :
+		// mfa.getDeliveryOptions().entrySet()) {
 		// // log.info("{} ({})", entry.getKey(), entry.getValue());
-		// System.out.printf("%s: (value:'%s')%n", entry.getKey(), entry.getValue());
+		// System.out.printf("%s: (value:'%s')%n", entry.getKey(),
+		// entry.getValue());
 		// }
 		// final String answer = stdin.readLine();
 		final MFAResponse mfaResponse = new MFAResponse();
@@ -144,7 +152,8 @@ public class BaseService {
 		return mfaResponse;
 	}
 
-	private MFAResponse handleQuestion(final String userId, final String trackingToken, final MFA mfa) throws Exception {
+	private MFAResponse handleQuestion(final String userId, final String trackingToken, final MFA mfa)
+			throws Exception {
 		// // log.info("Asking question {}", mfa.getChallenge());
 		// System.out.println(mfa.getChallenge());
 		// final String answer = stdin.readLine();
