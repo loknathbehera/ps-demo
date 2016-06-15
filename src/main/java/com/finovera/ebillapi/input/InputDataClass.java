@@ -23,11 +23,11 @@ public class InputDataClass extends DataManager {
 	}
 
 	private void initData() {
-		inputData.put("URL", "http://sandbox.finovera.com/cabinet");
+		inputData.put("URL", "com/cabinet");
 
 		final MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-		map.add("customerCode", "fin");
-		map.add("password", "Tera kya go hoga Kaliya?");
+		map.add("customerCode", "***");
+		map.add("password", "*******************");
 
 		inputData.put("credMap", map);
 
